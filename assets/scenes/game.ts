@@ -34,7 +34,6 @@ export class Game extends Phaser.Scene {
   preload(){
     this.load.image('background', 'assets/images/background.png');
     this.load.image('ground', 'assets/images/ground.png');
-    this.load.image('meteor', 'assets/images/meteor.png');
     this.load.spritesheet('dinosaur', 'assets/images/dinosaur.png', { frameWidth: 96, frameHeight: 96 });
     this.load.image('control-left', 'assets/images/control-left.png');
     this.load.image('control-right', 'assets/images/control-right.png');
@@ -48,13 +47,17 @@ export class Game extends Phaser.Scene {
 
     this.player = this.physics
       .add.sprite(400,350,'dinosaur')
-      .setSize(48,48)
-      .setOffset(24,48)
+      .setSize(60,60)
+      .setOffset(18,36)
     this.player.setCollideWorldBounds(true);
 
     this.meteors = this.physics.add.group();
-    this.meteor = this.meteors.create(Phaser.Math.Between(24,300),-24,'meteor');
-    this.meteor.setVelocityY(500);
+    this.meteor = this.meteors
+    .create(Phaser.Math.Between(24,776),-24,'meteor')
+    .setSize(24,24)
+    .setOffset(12, 12)
+    this.meteor.setVelocityY(350);
+    this.meteor.anims.play('anim-meteor');
 
     this.anims.create({
       key : 'left',
@@ -135,8 +138,13 @@ export class Game extends Phaser.Scene {
     }else{
       if(this.meteor.y > this.meteor_pos){
         //this.meteor.disableBody(true,true);
-        this.meteor = this.meteors.create(Phaser.Math.Between(24,776),-24,'meteor');
+        //this.meteor = this.meteors.create(Phaser.Math.Between(24,776),-24,'meteor');
+        this.meteor = this.meteors
+          .create(Phaser.Math.Between(24,776),-24,'meteor')
+          .setSize(24,24)
+          .setOffset(12, 12)
         this.meteor.setVelocityY(350);
+        this.meteor.anims.play('anim-meteor');
         if(this.meteor_pos > 40){
           this.meteor_pos = this.meteor_pos - 10;
         }

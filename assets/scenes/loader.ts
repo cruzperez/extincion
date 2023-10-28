@@ -17,8 +17,7 @@ export class Loader extends Phaser.Scene {
     preload() {
       this.load.image('background-preload', 'assets/images/background-preload.png');
       this.load.spritesheet('title','assets/images/title.png', { frameWidth : 750, frameHeight : 160 });
-      this.load.image('meteor', 'assets/images/meteor.png');
-      //this.load.spritesheet('playbutton', 'assets/images/playbutton.png', { frameWidth: 190, frameHeight: 49 });
+      this.load.spritesheet('meteor', 'assets/images/meteor.png', { frameWidth: 48, frameHeight: 48 });
       this.load.image('btnplay','assets/images/btnplay.png');
     }
   
@@ -33,12 +32,20 @@ export class Loader extends Phaser.Scene {
         //repeatDelay: 2000
       });
 
+      this.anims.create({
+        key : 'anim-meteor',
+        frames : this.anims.generateFrameNumbers('meteor',{ start : 0, end : 1 }),
+        frameRate : 10,
+        repeat : -1
+      });
+
       this.add.sprite(400, 160,'title').play('anim-title');
 
       this.meteors = this.physics.add.group();
       this.meteor = this.meteors.create(Phaser.Math.Between(24,776),-24,'meteor');
       this.meteor.setVelocityY(500);
       this.meteor.setVelocityX(500);
+      this.meteor.anims.play('anim-meteor');
 
       var startButton = this.add.sprite(400, 400, 'btnplay').setInteractive();
   
@@ -54,6 +61,7 @@ export class Loader extends Phaser.Scene {
         //this.meteor.disableBody(true,true);
         this.meteor = this.meteors.create(Phaser.Math.Between(24,776), -24, 'meteor');
         this.meteor.setVelocity( Phaser.Math.Between(-200,200), Phaser.Math.Between(100,500));
+        this.meteor.anims.play('anim-meteor');
       }
     }
   
